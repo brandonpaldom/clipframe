@@ -137,26 +137,17 @@ async function handleCaptureFullPage(
     let currentOffset = 0;
 
     while (!done && !aborted) {
+      // Wait for the browser to finish painting before capturing
+      await delay(150);
+
       // Capture current viewport
       let dataUrl: string;
       try {
-        dataUrl = await chrome.tabs.captureVisibleTab(null!, {
-          format: settings.format,
-          quality: settings.format === "jpeg" ? settings.quality : undefined,
-        });
+        dataUrl = await captureWithRetry(settings);
       } catch {
-        // Retry once on failure
-        try {
-          await delay(200);
-          dataUrl = await chrome.tabs.captureVisibleTab(null!, {
-            format: settings.format,
-            quality: settings.format === "jpeg" ? settings.quality : undefined,
-          });
-        } catch {
-          throw new Error(
-            `Capture failed at segment ${dataUrls.length + 1}. ${dataUrls.length} segments captured successfully.`,
-          );
-        }
+        throw new Error(
+          `Capture failed at segment ${dataUrls.length + 1}. ${dataUrls.length} segments captured successfully.`,
+        );
       }
 
       dataUrls.push(dataUrl);
@@ -271,6 +262,24 @@ async function ensureOffscreenDocument(): Promise<void> {
     });
   } catch {
     // Document may already exist — that's fine
+  }
+}
+
+async function captureWithRetry(settings: {
+  format: "png" | "jpeg";
+  quality: number;
+}): Promise<string> {
+  const options = {
+    format: settings.format,
+    quality: settings.format === "jpeg" ? settings.quality : undefined,
+  };
+
+  try {
+    return await chrome.tabs.captureVisibleTab(null!, options);
+  } catch {
+    // Retry once after a longer delay
+    await delay(500);
+    return await chrome.tabs.captureVisibleTab(null!, options);
   }
 }
 
