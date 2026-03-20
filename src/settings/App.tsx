@@ -3,6 +3,7 @@ import { getSettings, saveSettings } from "../utils/storage";
 import { generateFilename } from "../utils/filename";
 import type { Settings } from "../types";
 import { DEFAULT_SETTINGS } from "../types";
+import styles from "./App.module.css";
 
 export default function App() {
   const [settings, setSettings] = useState<Settings>(DEFAULT_SETTINGS);
@@ -31,12 +32,12 @@ export default function App() {
   const preview = generateFilename("https://example.com", settings.format);
 
   return (
-    <div style={{ maxWidth: 480, margin: "32px auto", fontFamily: "system-ui, sans-serif", padding: "0 16px" }}>
-      <h1 style={{ marginBottom: 24 }}>Settings</h1>
+    <div className={styles.container}>
+      <h1 className={styles.title}>Settings</h1>
 
-      <section style={{ marginBottom: 24 }}>
-        <h3 style={{ marginBottom: 8 }}>Image Format</h3>
-        <label style={{ marginRight: 16, cursor: "pointer" }}>
+      <section className={styles.section}>
+        <h3 className={styles.sectionTitle}>Image Format</h3>
+        <label className={styles.radioLabel}>
           <input
             type="radio"
             name="format"
@@ -46,7 +47,7 @@ export default function App() {
           />{" "}
           PNG
         </label>
-        <label style={{ cursor: "pointer" }}>
+        <label className={styles.radioLabel}>
           <input
             type="radio"
             name="format"
@@ -59,26 +60,22 @@ export default function App() {
       </section>
 
       {settings.format === "jpeg" && (
-        <section style={{ marginBottom: 24 }}>
-          <h3 style={{ marginBottom: 8 }}>
-            Quality: {settings.quality}
-          </h3>
+        <section className={styles.section}>
+          <h3 className={styles.sectionTitle}>Quality: {settings.quality}</h3>
           <input
             type="range"
             min={10}
             max={100}
             value={settings.quality}
             onChange={(e) => update({ quality: Number(e.target.value) })}
-            style={{ width: "100%" }}
+            className={styles.slider}
           />
         </section>
       )}
 
-      <section>
-        <h3 style={{ marginBottom: 8 }}>Filename Preview</h3>
-        <code style={{ padding: "8px 12px", borderRadius: 4, display: "block", fontSize: 14 }}>
-          {preview}
-        </code>
+      <section className={styles.section}>
+        <h3 className={styles.sectionTitle}>Filename Preview</h3>
+        <code className={styles.preview}>{preview}</code>
       </section>
     </div>
   );

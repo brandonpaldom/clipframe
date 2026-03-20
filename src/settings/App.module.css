@@ -1,0 +1,41 @@
+.container {
+  max-width: 480px;
+  margin: 32px auto;
+  padding: 0 16px;
+}
+
+.title {
+  margin: 0 0 24px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.section {
+  margin-bottom: 24px;
+}
+
+.sectionTitle {
+  margin: 0 0 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.radioLabel {
+  margin-right: 16px;
+  cursor: pointer;
+}
+
+.slider {
+  width: 100%;
+  accent-color: var(--accent);
+}
+
+.preview {
+  padding: 8px 12px;
+  border-radius: 6px;
+  display: block;
+  font-size: 13px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+}

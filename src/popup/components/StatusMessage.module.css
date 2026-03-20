@@ -1,0 +1,17 @@
+.message {
+  margin: 8px 0 0;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  text-align: center;
+}
+
+.success {
+  background: var(--success-bg);
+  color: var(--success);
+}
+
+.error {
+  background: var(--error-bg);
+  color: var(--error);
+}

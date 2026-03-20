@@ -1,0 +1,31 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.settingsBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  color: var(--text-secondary);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.settingsBtn:hover {
+  color: var(--text-primary);
+  background: var(--bg-secondary);
+}

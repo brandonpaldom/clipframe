@@ -1,8 +1,30 @@
 import { useState } from "react";
 import { sendToBackground } from "../utils/messaging";
 import type { CaptureResult } from "../types";
+import Header from "./components/Header";
+import CaptureButton from "./components/CaptureButton";
+import StatusMessage from "./components/StatusMessage";
 
 type Status = "idle" | "capturing" | "success" | "error";
+
+function CameraIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="2" y="6" width="20" height="14" rx="2" />
+      <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+      <circle cx="12" cy="13" r="3" />
+    </svg>
+  );
+}
+
+function FullPageIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="3" width="18" height="18" rx="2" />
+      <path d="M3 9h18M3 15h18" />
+    </svg>
+  );
+}
 
 export default function App() {
   const [status, setStatus] = useState<Status>("idle");
@@ -33,39 +55,29 @@ export default function App() {
   const capturing = status === "capturing";
 
   return (
-    <div style={{ width: 350, padding: 16, fontFamily: "system-ui, sans-serif" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-        <h2 style={{ margin: 0 }}>Screenshot Capture</h2>
-        <button
-          onClick={() => chrome.runtime.openOptionsPage()}
-          title="Settings"
-          style={{ background: "none", border: "none", cursor: "pointer", fontSize: 20, padding: 4 }}
-        >
-          &#9881;
-        </button>
-      </div>
+    <div style={{ width: 350, padding: 16 }}>
+      <Header />
 
-      <button
+      <CaptureButton
+        icon={<CameraIcon />}
+        label="Capture Visible"
+        loading={capturing}
         onClick={handleCaptureVisible}
-        disabled={capturing}
-        style={{ width: "100%", padding: "10px", marginBottom: 8, cursor: capturing ? "not-allowed" : "pointer" }}
-      >
-        {capturing ? "Capturing..." : "Capture Visible"}
-      </button>
+      />
 
-      <button
+      <CaptureButton
+        icon={<FullPageIcon />}
+        label="Full-Page Capture"
         disabled
-        style={{ width: "100%", padding: "10px", marginBottom: 8, opacity: 0.5, cursor: "not-allowed" }}
-      >
-        Full-Page Capture
-      </button>
+        onClick={() => {}}
+      />
 
       {status === "success" && (
-        <p style={{ color: "green", margin: "8px 0 0" }}>Done!</p>
+        <StatusMessage type="success">Done!</StatusMessage>
       )}
 
       {status === "error" && (
-        <p style={{ color: "red", margin: "8px 0 0" }}>{errorMessage}</p>
+        <StatusMessage type="error">{errorMessage}</StatusMessage>
       )}
     </div>
   );
