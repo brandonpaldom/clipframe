@@ -10,6 +10,15 @@ export default defineConfig({
     rollupOptions: {
       input: {
         offscreen: resolve(__dirname, "src/offscreen/offscreen.html"),
+        "scroll-capture": resolve(__dirname, "src/content/scroll-capture.ts"),
+      },
+      output: {
+        entryFileNames: (chunkInfo) => {
+          if (chunkInfo.name === "scroll-capture") {
+            return "content/scroll-capture.js";
+          }
+          return "assets/[name]-[hash].js";
+        },
       },
     },
   },

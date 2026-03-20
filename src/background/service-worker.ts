@@ -116,7 +116,12 @@ async function handleCaptureFullPage(
     };
     chrome.tabs.onActivated.addListener(tabActivatedListener);
 
-    // Content script is declared in manifest and already loaded on the page.
+    // Inject content script programmatically
+    await chrome.scripting.executeScript({
+      target: { tabId },
+      files: ["content/scroll-capture.js"],
+    });
+
     // Initialize scroll capture
     const initResponse = (await chrome.tabs.sendMessage(tabId, {
       type: "INIT_SCROLL",
