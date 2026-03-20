@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { sendToBackground } from "../utils/messaging";
-import type { CaptureResult } from "../types";
+import type { CaptureResult, CaptureProgressMessage } from "../types";
 import Header from "./components/Header";
 import CaptureButton from "./components/CaptureButton";
 import StatusMessage from "./components/StatusMessage";
@@ -28,15 +28,29 @@ function FullPageIcon() {
 
 export default function App() {
   const [status, setStatus] = useState<Status>("idle");
+  const [captureType, setCaptureType] = useState<"visible" | "fullpage">("visible");
   const [errorMessage, setErrorMessage] = useState("");
+  const [progress, setProgress] = useState({ current: 0, total: 0 });
 
-  const handleCaptureVisible = async () => {
+  useEffect(() => {
+    const listener = (message: CaptureProgressMessage) => {
+      if (message.type === "CAPTURE_PROGRESS") {
+        setProgress({ current: message.current, total: message.total });
+      }
+    };
+    chrome.runtime.onMessage.addListener(listener);
+    return () => chrome.runtime.onMessage.removeListener(listener);
+  }, []);
+
+  const handleCapture = async (type: "visible" | "fullpage") => {
     setStatus("capturing");
+    setCaptureType(type);
     setErrorMessage("");
+    setProgress({ current: 0, total: 0 });
 
     try {
       const result: CaptureResult = await sendToBackground({
-        type: "CAPTURE_VISIBLE",
+        type: type === "visible" ? "CAPTURE_VISIBLE" : "CAPTURE_FULL_PAGE",
       });
 
       if (result.success) {
@@ -54,6 +68,11 @@ export default function App() {
 
   const capturing = status === "capturing";
 
+  const fullPageLabel =
+    capturing && captureType === "fullpage" && progress.total > 0
+      ? `Capturing... ${progress.current}/${progress.total} segments`
+      : undefined;
+
   return (
     <div style={{ width: 350, padding: 16 }}>
       <Header />
@@ -61,15 +80,18 @@ export default function App() {
       <CaptureButton
         icon={<CameraIcon />}
         label="Capture Visible"
-        loading={capturing}
-        onClick={handleCaptureVisible}
+        loading={capturing && captureType === "visible"}
+        disabled={capturing}
+        onClick={() => handleCapture("visible")}
       />
 
       <CaptureButton
         icon={<FullPageIcon />}
         label="Full-Page Capture"
-        disabled
-        onClick={() => {}}
+        loadingLabel={fullPageLabel}
+        loading={capturing && captureType === "fullpage"}
+        disabled={capturing}
+        onClick={() => handleCapture("fullpage")}
       />
 
       {status === "success" && (

@@ -45,6 +45,7 @@ async function handleInitScroll(): Promise<ScrollInitResponse> {
 
   return {
     totalHeight,
+    viewportWidth: window.innerWidth,
     viewportHeight,
     devicePixelRatio: window.devicePixelRatio,
   };

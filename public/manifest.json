@@ -3,7 +3,7 @@
   "name": "Screenshot Capture",
   "version": "1.0.0",
   "description": "Capture visible viewport or full-page screenshots",
-  "permissions": ["activeTab", "downloads", "storage"],
+  "permissions": ["activeTab", "downloads", "offscreen", "storage"],
   "action": {
     "default_popup": "src/popup/index.html"
   },
@@ -14,5 +14,12 @@
   "background": {
     "service_worker": "src/background/service-worker.ts",
     "type": "module"
-  }
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["src/content/scroll-capture.ts"],
+      "run_at": "document_idle"
+    }
+  ]
 }

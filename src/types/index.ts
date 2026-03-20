@@ -51,6 +51,7 @@ export type ExtensionMessage =
 
 export type ScrollInitResponse = {
   totalHeight: number;
+  viewportWidth: number;
   viewportHeight: number;
   devicePixelRatio: number;
 };
