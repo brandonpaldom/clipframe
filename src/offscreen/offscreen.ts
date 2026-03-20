@@ -17,7 +17,15 @@ chrome.runtime.onMessage.addListener(
 );
 
 async function stitchImages(message: StitchMessage): Promise<StitchResult> {
-  const { dataUrls, viewportWidth, viewportHeight, totalHeight, devicePixelRatio, format, quality } = message;
+  const {
+    dataUrls,
+    viewportWidth,
+    viewportHeight,
+    totalHeight,
+    devicePixelRatio,
+    format,
+    quality,
+  } = message;
 
   const dpr = devicePixelRatio;
   const canvasWidth = Math.round(viewportWidth * dpr);
@@ -60,11 +68,7 @@ async function stitchImages(message: StitchMessage): Promise<StitchResult> {
       if (remaining > 0 && remaining < segmentHeightPx) {
         // Only draw the non-overlapping bottom portion
         const sourceY = img.height - remaining;
-        ctx.drawImage(
-          img,
-          0, sourceY, img.width, remaining,
-          0, drawnSoFar, canvasWidth, remaining,
-        );
+        ctx.drawImage(img, 0, sourceY, img.width, remaining, 0, drawnSoFar, canvasWidth, remaining);
       } else {
         ctx.drawImage(img, 0, drawnSoFar);
       }

@@ -9,7 +9,16 @@ type Status = "idle" | "capturing" | "success" | "error";
 
 function CameraIcon() {
   return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       <rect x="2" y="6" width="20" height="14" rx="2" />
       <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
       <circle cx="12" cy="13" r="3" />
@@ -19,7 +28,16 @@ function CameraIcon() {
 
 function FullPageIcon() {
   return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       <rect x="3" y="3" width="18" height="18" rx="2" />
       <path d="M3 9h18M3 15h18" />
     </svg>
@@ -94,13 +112,9 @@ export default function App() {
         onClick={() => handleCapture("fullpage")}
       />
 
-      {status === "success" && (
-        <StatusMessage type="success">Done!</StatusMessage>
-      )}
+      {status === "success" && <StatusMessage type="success">Done!</StatusMessage>}
 
-      {status === "error" && (
-        <StatusMessage type="error">{errorMessage}</StatusMessage>
-      )}
+      {status === "error" && <StatusMessage type="error">{errorMessage}</StatusMessage>}
     </div>
   );
 }

@@ -6,9 +6,7 @@ import type {
   ScrollNextResponse,
 } from "../types";
 
-export function sendToBackground(
-  message: PopupMessage,
-): Promise<CaptureResult> {
+export function sendToBackground(message: PopupMessage): Promise<CaptureResult> {
   return chrome.runtime.sendMessage(message);
 }
 

@@ -152,7 +152,7 @@ async function handleCaptureFullPage(
             format: settings.format,
             quality: settings.format === "jpeg" ? settings.quality : undefined,
           });
-        } catch (retryErr) {
+        } catch {
           throw new Error(
             `Capture failed at segment ${dataUrls.length + 1}. ${dataUrls.length} segments captured successfully.`,
           );

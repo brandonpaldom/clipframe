@@ -34,10 +34,7 @@ export type CaptureProgressMessage = {
 
 export type PopupMessage = CaptureVisibleMessage | CaptureFullPageMessage;
 
-export type ContentScriptMessage =
-  | InitScrollMessage
-  | ScrollNextMessage
-  | RestoreScrollMessage;
+export type ContentScriptMessage = InitScrollMessage | ScrollNextMessage | RestoreScrollMessage;
 
 export type OffscreenMessage = StitchMessage;
 
@@ -61,9 +58,7 @@ export type ScrollNextResponse = {
   scrollY: number;
 };
 
-export type CaptureResult =
-  | { success: true; filename: string }
-  | { success: false; error: string };
+export type CaptureResult = { success: true; filename: string } | { success: false; error: string };
 
 export type StitchResult = {
   dataUrl: string;

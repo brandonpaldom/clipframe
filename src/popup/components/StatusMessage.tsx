@@ -6,9 +6,5 @@ interface Props {
 }
 
 export default function StatusMessage({ type, children }: Props) {
-  return (
-    <div className={`${styles.message} ${styles[type]}`}>
-      {children}
-    </div>
-  );
+  return <div className={`${styles.message} ${styles[type]}`}>{children}</div>;
 }

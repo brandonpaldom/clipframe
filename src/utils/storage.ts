@@ -5,8 +5,6 @@ export async function getSettings(): Promise<Settings> {
   return stored as Settings;
 }
 
-export async function saveSettings(
-  partial: Partial<Settings>,
-): Promise<void> {
+export async function saveSettings(partial: Partial<Settings>): Promise<void> {
   await chrome.storage.sync.set(partial);
 }

@@ -1,8 +1,4 @@
-import type {
-  ContentScriptMessage,
-  ScrollInitResponse,
-  ScrollNextResponse,
-} from "../types";
+import type { ContentScriptMessage, ScrollInitResponse, ScrollNextResponse } from "../types";
 
 let savedScrollX = 0;
 let savedScrollY = 0;
@@ -51,9 +47,7 @@ async function handleInitScroll(): Promise<ScrollInitResponse> {
   };
 }
 
-async function handleScrollNext(
-  offset: number,
-): Promise<ScrollNextResponse> {
+async function handleScrollNext(offset: number): Promise<ScrollNextResponse> {
   window.scrollTo(0, offset);
   await delay(150);
 
