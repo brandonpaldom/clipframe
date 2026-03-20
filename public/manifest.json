@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Screenshot Capture",
+  "name": "Clipframe",
   "version": "1.0.0",
-  "description": "Capture visible viewport or full-page screenshots",
+  "description": "Capture visible viewport or full-page screenshots with one click",
   "permissions": ["activeTab", "downloads", "offscreen", "storage"],
   "action": {
     "default_popup": "src/popup/index.html",
