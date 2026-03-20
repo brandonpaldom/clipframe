@@ -136,7 +136,8 @@ async function handleCaptureFullPage(
     let done = false;
     let currentOffset = 0;
 
-    while (!done && !aborted) {
+    const maxSegments = estimatedSegments + 5; // safety limit
+    while (!done && !aborted && dataUrls.length < maxSegments) {
       // Wait for the browser to finish painting before capturing
       await delay(150);
 

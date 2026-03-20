@@ -48,11 +48,17 @@ async function handleInitScroll(): Promise<ScrollInitResponse> {
 }
 
 async function handleScrollNext(offset: number): Promise<ScrollNextResponse> {
+  const previousScrollY = window.scrollY;
   window.scrollTo(0, offset);
   await delay(150);
 
   const actualScrollY = window.scrollY;
-  const done = actualScrollY + viewportHeight >= totalHeight;
+  // Re-read totalHeight in case lazy content changed it
+  const currentTotalHeight = document.documentElement.scrollHeight;
+  // Done if we've reached the bottom OR scroll position didn't change (can't scroll further)
+  const atBottom = actualScrollY + viewportHeight >= currentTotalHeight;
+  const stuck = actualScrollY === previousScrollY && offset > previousScrollY;
+  const done = atBottom || stuck;
 
   return { done, scrollY: actualScrollY };
 }
