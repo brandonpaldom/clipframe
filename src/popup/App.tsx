@@ -4,14 +4,16 @@ import type { CaptureResult, CaptureProgressMessage } from "../types";
 import Header from "./components/Header";
 import CaptureButton from "./components/CaptureButton";
 import StatusMessage from "./components/StatusMessage";
+import styles from "./App.module.css";
 
 type Status = "idle" | "capturing" | "success" | "error";
 
-function CameraIcon() {
+// Lucide: Scan (visible capture)
+function ScanIcon() {
   return (
     <svg
-      width="16"
-      height="16"
+      width="20"
+      height="20"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -19,18 +21,20 @@ function CameraIcon() {
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      <rect x="2" y="6" width="20" height="14" rx="2" />
-      <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-      <circle cx="12" cy="13" r="3" />
+      <path d="M3 7V5a2 2 0 0 1 2-2h2" />
+      <path d="M17 3h2a2 2 0 0 1 2 2v2" />
+      <path d="M21 17v2a2 2 0 0 1-2 2h-2" />
+      <path d="M7 21H5a2 2 0 0 1-2-2v-2" />
     </svg>
   );
 }
 
-function FullPageIcon() {
+// Lucide: AppWindow (full page)
+function AppWindowIcon() {
   return (
     <svg
-      width="16"
-      height="16"
+      width="20"
+      height="20"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -38,8 +42,10 @@ function FullPageIcon() {
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      <rect x="3" y="3" width="18" height="18" rx="2" />
-      <path d="M3 9h18M3 15h18" />
+      <rect x="2" y="4" width="20" height="16" rx="2" />
+      <path d="M10 4v4" />
+      <path d="M2 8h20" />
+      <path d="M6 4v4" />
     </svg>
   );
 }
@@ -86,33 +92,37 @@ export default function App() {
 
   const capturing = status === "capturing";
 
-  const fullPageLabel =
+  const fullPageLoadingLabel =
     capturing && captureType === "fullpage" && progress.total > 0
-      ? `Capturing... ${progress.current}/${progress.total} segments`
+      ? `Capturing... ${progress.current}/${progress.total}`
       : undefined;
 
   return (
-    <div style={{ width: 350, padding: 16 }}>
+    <div className={styles.popup}>
       <Header />
 
-      <CaptureButton
-        icon={<CameraIcon />}
-        label="Capture Visible"
-        loading={capturing && captureType === "visible"}
-        disabled={capturing}
-        onClick={() => handleCapture("visible")}
-      />
+      <div className={styles.actions}>
+        <CaptureButton
+          icon={<ScanIcon />}
+          label="Visible part"
+          description="Capture what you see now"
+          loading={capturing && captureType === "visible"}
+          disabled={capturing}
+          onClick={() => handleCapture("visible")}
+        />
 
-      <CaptureButton
-        icon={<FullPageIcon />}
-        label="Full-Page Capture"
-        loadingLabel={fullPageLabel}
-        loading={capturing && captureType === "fullpage"}
-        disabled={capturing}
-        onClick={() => handleCapture("fullpage")}
-      />
+        <CaptureButton
+          icon={<AppWindowIcon />}
+          label="Full page"
+          description="Scroll and capture everything"
+          loadingLabel={fullPageLoadingLabel}
+          loading={capturing && captureType === "fullpage"}
+          disabled={capturing}
+          onClick={() => handleCapture("fullpage")}
+        />
+      </div>
 
-      {status === "success" && <StatusMessage type="success">Done!</StatusMessage>}
+      {status === "success" && <StatusMessage type="success">Saved to downloads</StatusMessage>}
 
       {status === "error" && <StatusMessage type="error">{errorMessage}</StatusMessage>}
     </div>

@@ -4,6 +4,7 @@ import styles from "./CaptureButton.module.css";
 interface Props {
   icon: ReactNode;
   label: string;
+  description: string;
   loadingLabel?: string;
   loading?: boolean;
   disabled?: boolean;
@@ -14,8 +15,8 @@ function Spinner() {
   return (
     <svg
       className={styles.spinner}
-      width="16"
-      height="16"
+      width="20"
+      height="20"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -30,15 +31,27 @@ function Spinner() {
 export default function CaptureButton({
   icon,
   label,
+  description,
   loadingLabel,
   loading,
   disabled,
   onClick,
 }: Props) {
+  const isLoading = loading ?? false;
+
   return (
-    <button className={styles.button} onClick={onClick} disabled={disabled || loading}>
-      {loading ? <Spinner /> : icon}
-      {loading ? (loadingLabel ?? "Capturing...") : label}
+    <button
+      className={`${styles.button} ${isLoading ? styles.loading : ""}`}
+      onClick={onClick}
+      disabled={disabled || isLoading}
+    >
+      <div className={styles.iconBadge}>{isLoading ? <Spinner /> : icon}</div>
+      <div className={styles.textGroup}>
+        <span className={styles.label}>{label}</span>
+        <span className={styles.description}>
+          {isLoading ? (loadingLabel ?? "Capturing...") : description}
+        </span>
+      </div>
     </button>
   );
 }
