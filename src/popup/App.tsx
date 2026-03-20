@@ -34,7 +34,16 @@ export default function App() {
 
   return (
     <div style={{ width: 350, padding: 16, fontFamily: "system-ui, sans-serif" }}>
-      <h2 style={{ margin: "0 0 16px" }}>Screenshot Capture</h2>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+        <h2 style={{ margin: 0 }}>Screenshot Capture</h2>
+        <button
+          onClick={() => chrome.runtime.openOptionsPage()}
+          title="Settings"
+          style={{ background: "none", border: "none", cursor: "pointer", fontSize: 20, padding: 4 }}
+        >
+          &#9881;
+        </button>
+      </div>
 
       <button
         onClick={handleCaptureVisible}
