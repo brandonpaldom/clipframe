@@ -20,7 +20,7 @@ A Chrome/Edge extension that captures screenshots of web pages — both the visi
 ### Setup
 
 ```bash
-git clone https://github.com/your-username/clipframe.git
+git clone https://github.com/brandonpaldom/clipframe.git
 cd clipframe
 npm install
 ```
